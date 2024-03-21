@@ -199,8 +199,8 @@ func FloatBucketSort(arr []int, f func(a, b int) bool) {
 	bucketSize := float64(maxVal-minVal+1) / float64(len(arr))
 	bucketCount := int(bucketSize) + 1
 	buckets := make([][]int, bucketCount)
-
 	// 将数据分配到桶中
+
 	for _, val := range arr {
 		bucketIndex := int((float64(val) - float64(minVal)) / bucketSize)
 		buckets[bucketIndex] = append(buckets[bucketIndex], val)
@@ -219,4 +219,25 @@ func FloatBucketSort(arr []int, f func(a, b int) bool) {
 			index++
 		}
 	}
+}
+
+// ByteQuickSort 快速排序
+func ByteQuickSort(arr []byte, left, right int, f func(a, b int) bool) {
+	if left < right {
+		pivot := bytePartition(arr, left, right, f)
+		ByteQuickSort(arr, left, pivot-1, f)
+		ByteQuickSort(arr, pivot+1, right, f)
+	}
+}
+
+func bytePartition(arr []byte, left, right int, f func(a, b int) bool) int {
+	i := left
+	for j := left; j < right; j++ {
+		if f(j, right) {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+		}
+	}
+	arr[i], arr[right] = arr[right], arr[i]
+	return i
 }
